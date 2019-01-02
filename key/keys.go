@@ -47,8 +47,6 @@ func NewAccount(num int, subFaucets []conf.SubFaucet) ([]types.AccountInfo, erro
 		}
 	}
 
-	return accountsInfo, nil
-
 	// loop transfer token to acc
 	// can't use goroutine because of sequence in tx must in order,
 	// for example, tx which sequence is 35 shouldn't be broadcasted to blockchain
