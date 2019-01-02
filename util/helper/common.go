@@ -3,67 +3,63 @@ package helper
 import (
 	"bufio"
 	"bytes"
+	"fmt"
 	"github.com/kaifei-bianjie/mock/conf"
 	"github.com/kaifei-bianjie/mock/util/constants"
-	"io/ioutil"
-	"net/http"
+	"github.com/parnurzeal/gorequest"
 	"os"
 	"strconv"
+	"strings"
 )
 
 // post json data use http client
 func HttpClientPostJsonData(uri string, requestBody *bytes.Buffer) (int, []byte, error) {
+	var (
+		errStrs    []string
+		err        error
+		statusCode int
+	)
 	url := conf.NodeUrl + uri
-	method := "POST"
+	reqStr := string(requestBody.Bytes())
 
-	return httpDo(method, url, requestBody)
+	resp, body, errs := gorequest.New().Timeout(constants.HttpTimeout).Post(url).
+		Send(reqStr).EndBytes()
+
+	if len(errs) > 0 {
+		for _, err := range errs {
+			errStrs = append(errStrs, err.Error())
+		}
+		err = fmt.Errorf(strings.Join(errStrs, "|"))
+	} else {
+		statusCode = resp.StatusCode
+	}
+
+	return statusCode, body, err
 }
 
 // get data use http client
 func HttpClientGetData(uri string) (int, []byte, error) {
-	res, err := http.Get(conf.NodeUrl + uri)
+	var (
+		err        error
+		errStrs    []string
+		statusCode int
+	)
+	url := conf.NodeUrl + uri
 
-	if err != nil {
-		return 0, nil, err
+	resp, body, errs := gorequest.New().Timeout(constants.HttpTimeout).Get(url).
+		//Retry(2, 5*time.Second, http.StatusInternalServerError).
+		EndBytes()
+
+	if len(errs) > 0 {
+		for _, err := range errs {
+			errStrs = append(errStrs, err.Error())
+		}
+		err = fmt.Errorf(strings.Join(errStrs, "|"))
+	} else {
+		statusCode = resp.StatusCode
 	}
 
-	resByte, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return 0, nil, err
-	}
-
-	defer res.Body.Close()
-
-	return res.StatusCode, resByte, nil
-}
-
-func httpDo(method, url string, requestBody *bytes.Buffer) (int, []byte, error) {
-	client := http.Client{
-		Transport: &http.Transport{
-			DisableKeepAlives: true,
-		},
-	}
-
-	req, err := http.NewRequest(method, url, requestBody)
-	if err != nil {
-		return 0, nil, err
-	}
-
-	req.Header.Set("Content-Type", constants.HeaderContentTypeJson)
-
-	resp, err := client.Do(req)
-	if err != nil {
-		return 0, nil, err
-	}
-
-	defer resp.Body.Close()
-
-	resByte, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return 0, nil, err
-	}
-
-	return resp.StatusCode, resByte, nil
+	return statusCode, body, err
 }
 
 func ConvertStrToInt64(s string) (int64, error) {

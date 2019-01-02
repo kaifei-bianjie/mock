@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"github.com/kaifei-bianjie/mock/conf"
 	"github.com/kaifei-bianjie/mock/util/constants"
+	"math/rand"
 	"os"
 )
 
@@ -32,26 +33,26 @@ func TestCreateAccount(t *testing.T) {
 		name string
 		args args
 	}{
-		//{
-		//	name: "test create account",
-		//	args: args{
-		//		name:     GenKeyName(constants.KeyNamePrefix, rand.Intn(10)),
-		//		password: "1234567890",
-		//		seed:     "",
-		//	},
-		//},
 		{
-			name: "test recover account",
+			name: "test create account",
 			args: args{
-				name:     constants.MockFaucetName,
-				password: constants.MockFaucetPassword,
-				seed:     conf.FaucetSeed,
+				name:     GenKeyName(constants.KeyNamePrefix, rand.Intn(10)),
+				password: "1234567890",
+				seed:     "",
 			},
 		},
+		//{
+		//	name: "test recover account",
+		//	args: args{
+		//		name:     constants.MockFaucetName,
+		//		password: constants.MockFaucetPassword,
+		//		seed:     conf.FaucetSeed,
+		//	},
+		//},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			res, err := CreateAccount(tt.args.name, tt.args.password, tt.args.seed)
+			res, err := NewKey(tt.args.name, tt.args.password, tt.args.seed)
 			if err != nil {
 				t.Fatal(err)
 			}

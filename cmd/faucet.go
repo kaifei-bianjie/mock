@@ -55,7 +55,7 @@ mock faucet-init --faucet-name {faucet-name} --seed="recycle light kid ..." \&
 			}
 
 			// recover faucet by seed
-			address, err := account.CreateAccount(name, constants.MockFaucetPassword, seed)
+			address, err := account.NewKey(name, constants.MockFaucetPassword, seed)
 			if err != nil {
 				return err
 			}

@@ -17,7 +17,7 @@ func GenKeyName(namePrefix string, num int) string {
 }
 
 // create key
-func CreateAccount(name, password, seed string) (string, error) {
+func NewKey(name, password, seed string) (string, error) {
 	req := types.KeyCreateReq{
 		Name:     name,
 		Password: password,
@@ -36,6 +36,8 @@ func CreateAccount(name, password, seed string) (string, error) {
 	statusCode, resBytes, err := helper.HttpClientPostJsonData(uri, reqBody)
 
 	if err != nil {
+		log.Printf("%v, statusCode %v, res %v, err is %v\n",
+			"createAccount", statusCode, string(resBytes), err)
 		return "", err
 	}
 
@@ -48,8 +50,6 @@ func CreateAccount(name, password, seed string) (string, error) {
 	} else if statusCode == constants.StatusCodeConflict {
 		return "", fmt.Errorf("%v", string(resBytes))
 	} else {
-		log.Printf("%v, statusCode %v, res %v, err is %v\n",
-			"createAccount", statusCode, string(resBytes), err)
 		errRes := types.ErrorRes{}
 		if err := json.Unmarshal(resBytes, &errRes); err != nil {
 			return "", err

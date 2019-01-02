@@ -10,12 +10,12 @@ import (
 
 func TestMain(m *testing.M) {
 	conf.NodeUrl = "http://localhost:1317"
-	conf.ChainId = "rainbow-dev"
+	conf.ChainId = "rainbow-qa"
 
-	conf.FaucetSeed = "cube water sing thunder rib buyer assume rebuild cigar earn slight canoe apart grocery image satisfy genre woman mother can client science this tag"
+	conf.FaucetSeed = "tent tube capable grit volume enforce wash snow tilt clip stable alert drip fence huge recycle excess focus jump antique creek area meadow alarm"
 
 	conf.BlockInterval = 5
-	conf.DefaultReceiverAddr = "faa1r5q5wqwctgfpt3p56qsctptrcq4st6lssyzx65"
+	conf.DefaultReceiverAddr = "faa1z72xhn7nq4u0jtvpkgehfwc8u6s5jjer2kvx28"
 
 	code := m.Run()
 	os.Exit(code)
@@ -35,14 +35,14 @@ func TestSendTransferTx(t *testing.T) {
 			name: "test send transfer tx",
 			args: args{
 				senderInfo: types.AccountInfo{
-					LocalAccountName: "mock-faucet",
+					LocalAccountName: "kaifei",
 					Password:         "1234567890",
-					AccountNumber:    "23",
-					Sequence:         "1",
-					Address:          "faa1mhx2fgwds8uszeazl3au6r0xceppj9xrxavpud",
+					AccountNumber:    "51409",
+					Sequence:         "0",
+					Address:          "faa1z72xhn7nq4u0jtvpkgehfwc8u6s5jjer2kvx28",
 				},
 				receiver:     conf.DefaultReceiverAddr,
-				generateOnly: true,
+				generateOnly: false,
 			},
 		},
 	}

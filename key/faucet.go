@@ -25,7 +25,7 @@ func CreateFaucetSubAccount(faucetName, faucetPasswd, faucetAddr string, subAccN
 	// create sub account
 	for i := 1; i <= subAccNum; i++ {
 		keyName := fmt.Sprintf("%v_%v", faucetName, i)
-		go CreateKey(keyName, keyChan)
+		go CreateAccount(keyName, keyChan)
 	}
 
 	counter := 0

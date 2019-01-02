@@ -29,7 +29,7 @@ func NewAccount(num int, subFaucets []conf.SubFaucet) ([]types.AccountInfo, erro
 	// use goroutine to create account
 	for i := 1; i <= num; i++ {
 		keyName := account.GenKeyName(constants.KeyNamePrefix, i)
-		go CreateKey(keyName, createKeyChan)
+		go CreateAccount(keyName, createKeyChan)
 	}
 
 	counter := 0
@@ -46,6 +46,8 @@ func NewAccount(num int, subFaucets []conf.SubFaucet) ([]types.AccountInfo, erro
 			break
 		}
 	}
+
+	return accountsInfo, nil
 
 	// loop transfer token to acc
 	// can't use goroutine because of sequence in tx must in order,
@@ -156,10 +158,10 @@ func NewAccount(num int, subFaucets []conf.SubFaucet) ([]types.AccountInfo, erro
 }
 
 // create key and return accountInfo by channel
-func CreateKey(keyName string, accChan chan types.AccountInfo) {
+func CreateAccount(keyName string, accChan chan types.AccountInfo) {
 	var (
 		accountInfo types.AccountInfo
-		method      = "CreateKey"
+		method      = "CreateAccount"
 	)
 
 	defer func() {
@@ -170,7 +172,7 @@ func CreateKey(keyName string, accChan chan types.AccountInfo) {
 	}()
 
 	// create account
-	address, err := account.CreateAccount(keyName, constants.KeyPassword, "")
+	address, err := account.NewKey(keyName, constants.KeyPassword, "")
 	if err != nil {
 		log.Printf("%v: create key %v fail: %v\n", method, keyName, err)
 		return

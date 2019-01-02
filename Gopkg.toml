@@ -40,6 +40,11 @@
   source = "https://github.com/satori/go.uuid.git"
   version = "=v1.2.0"
 
+[[constraint]]
+  name = "github.com/parnurzeal/gorequest"
+  source = "github.com/parnurzeal/gorequest.git"
+  version = "v0.2.15"
+
 [prune]
   go-tests = true
   unused-packages = true

@@ -23,7 +23,7 @@ func TestMain(m *testing.M) {
 	conf.FaucetSeed = "cube water sing thunder rib buyer assume rebuild cigar earn slight canoe apart grocery image satisfy genre woman mother can client science this tag"
 
 	// create faucet account
-	addr, err := account.CreateAccount(faucetName, constants.MockFaucetPassword, conf.FaucetSeed)
+	addr, err := account.NewKey(faucetName, constants.MockFaucetPassword, conf.FaucetSeed)
 	if err != nil && !strings.Contains(err.Error(), "acount with name") {
 		panic(err)
 	}

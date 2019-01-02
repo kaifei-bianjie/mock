@@ -1,5 +1,7 @@
 package constants
 
+import "time"
+
 const (
 	// config file name
 	ConfigFileName = "config.json"
@@ -28,4 +30,7 @@ const (
 	MockDefaultGas     = "200000"
 	MockDefaultFee     = "0.01iris"
 	Denom              = "iris"
+
+	// http timeout
+	HttpTimeout = 60 * time.Second
 )

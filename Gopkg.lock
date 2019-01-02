@@ -199,6 +199,23 @@
   version = "v1.1.2"
 
 [[projects]]
+  digest = "1:7aefb397a53fc437c90f0fdb3e1419c751c5a3a165ced52325d5d797edf1aca6"
+  name = "github.com/moul/http2curl"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "9ac6cf4d929b2fa8fd2d2e6dec5bb0feb4f4911d"
+  version = "v1.0.0"
+
+[[projects]]
+  digest = "1:d776f3e95774a8719f2e57fabbbb33103035fe072dcf6f1864f33abd17b753e5"
+  name = "github.com/parnurzeal/gorequest"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "a578a48e8d6ca8b01a3b18314c43c6716bb5f5a3"
+  source = "github.com/parnurzeal/gorequest.git"
+  version = "v0.2.15"
+
+[[projects]]
   digest = "1:95741de3af260a92cc5c7f3f3061e85273f5a81b5db20d4bd68da74bd521675e"
   name = "github.com/pelletier/go-toml"
   packages = ["."]
@@ -459,7 +476,7 @@
   source = "github.com/tendermint/crypto"
 
 [[projects]]
-  digest = "1:d36f55a999540d29b6ea3c2ea29d71c76b1d9853fdcd3e5c5cb4836f2ba118f1"
+  digest = "1:7cc72287b751b14a2f5d48ff9e450a4e76038dfc0bac57dc23394c2193192b6b"
   name = "golang.org/x/net"
   packages = [
     "context",
@@ -469,6 +486,7 @@
     "idna",
     "internal/timeseries",
     "netutil",
+    "publicsuffix",
     "trace",
   ]
   pruneopts = "UT"
@@ -572,6 +590,7 @@
     "github.com/irisnet/irishub/modules/auth",
     "github.com/irisnet/irishub/modules/bank",
     "github.com/irisnet/irishub/types",
+    "github.com/parnurzeal/gorequest",
     "github.com/satori/go.uuid",
     "github.com/spf13/cobra",
     "github.com/spf13/pflag",
