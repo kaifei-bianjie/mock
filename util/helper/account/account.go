@@ -8,6 +8,7 @@ import (
 	"github.com/kaifei-bianjie/mock/util/constants"
 	"github.com/kaifei-bianjie/mock/util/helper"
 	"github.com/satori/go.uuid"
+	"log"
 )
 
 func GenKeyName(namePrefix string, num int) string {
@@ -41,12 +42,14 @@ func CreateAccount(name, password, seed string) (string, error) {
 	if statusCode == constants.StatusCodeOk {
 		res := types.KeyCreateRes{}
 		if err := json.Unmarshal(resBytes, &res); err != nil {
-			return "", nil
+			return "", err
 		}
 		return res.Address, nil
 	} else if statusCode == constants.StatusCodeConflict {
 		return "", fmt.Errorf("%v", string(resBytes))
 	} else {
+		log.Printf("%v, statusCode %v, res %v, err is %v\n",
+			"createAccount", statusCode, string(resBytes), err)
 		errRes := types.ErrorRes{}
 		if err := json.Unmarshal(resBytes, &errRes); err != nil {
 			return "", err

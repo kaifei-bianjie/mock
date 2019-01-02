@@ -162,11 +162,18 @@ func CreateKey(keyName string, accChan chan types.AccountInfo) {
 		method      = "CreateKey"
 	)
 
+	defer func() {
+		accChan <- accountInfo
+		if err := recover(); err != nil {
+			log.Printf("%v, err is %v\n", method, err)
+		}
+	}()
+
 	// create account
 	address, err := account.CreateAccount(keyName, constants.KeyPassword, "")
 	if err != nil {
-		log.Printf("%v: create key fail: %v\n", method, err)
-		accChan <- accountInfo
+		log.Printf("%v: create key %v fail: %v\n", method, keyName, err)
+		return
 	}
 	log.Printf("%v: account which name is %v create success\n",
 		method, keyName)
@@ -174,8 +181,6 @@ func CreateKey(keyName string, accChan chan types.AccountInfo) {
 	accountInfo.LocalAccountName = keyName
 	accountInfo.Password = constants.KeyPassword
 	accountInfo.Address = address
-
-	accChan <- accountInfo
 }
 
 // faucet distribute token to account
@@ -201,14 +206,20 @@ func GetAccountInfo(accInfo types.AccountInfo, accInfoChan chan types.AccountInf
 	var (
 		method = "GetAccountInfo"
 	)
+	defer func() {
+		accInfoChan <- accInfo
+		if err := recover(); err != nil {
+			log.Printf("%v, err is %v\n", method, err)
+		}
+	}()
+
 	// get account info
 	acc, err := account.GetAccountInfo(accInfo.Address)
 	if err != nil {
 		log.Printf("%v: get %v info fail: %v\n",
 			method, accInfo.LocalAccountName, err)
-		accInfoChan <- accInfo
+		return
 	}
 	accInfo.AccountNumber = acc.AccountNumber
 	accInfo.Sequence = acc.Sequence
-	accInfoChan <- accInfo
 }

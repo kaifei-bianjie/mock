@@ -14,26 +14,14 @@ import (
 // post json data use http client
 func HttpClientPostJsonData(uri string, requestBody *bytes.Buffer) (int, []byte, error) {
 	url := conf.NodeUrl + uri
-	res, err := http.Post(url, constants.HeaderContentTypeJson, requestBody)
-	defer res.Body.Close()
+	method := "POST"
 
-	if err != nil {
-		return 0, nil, err
-	}
-
-	resByte, err := ioutil.ReadAll(res.Body)
-
-	if err != nil {
-		return 0, nil, err
-	}
-
-	return res.StatusCode, resByte, nil
+	return httpDo(method, url, requestBody)
 }
 
 // get data use http client
 func HttpClientGetData(uri string) (int, []byte, error) {
 	res, err := http.Get(conf.NodeUrl + uri)
-	defer res.Body.Close()
 
 	if err != nil {
 		return 0, nil, err
@@ -44,7 +32,38 @@ func HttpClientGetData(uri string) (int, []byte, error) {
 		return 0, nil, err
 	}
 
+	defer res.Body.Close()
+
 	return res.StatusCode, resByte, nil
+}
+
+func httpDo(method, url string, requestBody *bytes.Buffer) (int, []byte, error) {
+	client := http.Client{
+		Transport: &http.Transport{
+			DisableKeepAlives: true,
+		},
+	}
+
+	req, err := http.NewRequest(method, url, requestBody)
+	if err != nil {
+		return 0, nil, err
+	}
+
+	req.Header.Set("Content-Type", constants.HeaderContentTypeJson)
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return 0, nil, err
+	}
+
+	defer resp.Body.Close()
+
+	resByte, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return 0, nil, err
+	}
+
+	return resp.StatusCode, resByte, nil
 }
 
 func ConvertStrToInt64(s string) (int64, error) {
