@@ -22,6 +22,7 @@ func GenSignedTxDataCmd() *cobra.Command {
 --home {config-home} --chain-id {chain-id} --node {node-url}
 `,
 		RunE: func(cmd *cobra.Command, _ []string) error {
+			fmt.Println("Start")
 			var (
 				subFaucets []conf.SubFaucet
 			)
@@ -84,6 +85,7 @@ func GenSignedTxDataCmd() *cobra.Command {
 			} else {
 				fmt.Println("no signed tx data")
 			}
+			fmt.Println("End")
 			return nil
 		},
 	}
