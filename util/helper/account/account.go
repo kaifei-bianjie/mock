@@ -50,11 +50,7 @@ func NewKey(name, password, seed string) (string, error) {
 	} else if statusCode == constants.StatusCodeConflict {
 		return "", fmt.Errorf("%v", string(resBytes))
 	} else {
-		errRes := types.ErrorRes{}
-		if err := json.Unmarshal(resBytes, &errRes); err != nil {
-			return "", err
-		}
-		return "", fmt.Errorf("err code: %v, err msg: %v", errRes.Code, errRes.ErrorMessage)
+		return "", fmt.Errorf("err is %v\n", string(resBytes))
 	}
 }
 
