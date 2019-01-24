@@ -28,12 +28,12 @@
 [[constraint]]
   name = "github.com/irisnet/irishub"
   source = "https://github.com/irisnet/irishub.git"
-  version = "=v0.8.0"
+  version = "=v0.10.2-patch"
 
 [[override]]
   name = "github.com/tendermint/tendermint"
   source = "https://github.com/irisnet/tendermint.git"
-  version = "=v0.27.0-dev1-iris"
+  version = "=v0.27.3-iris2"
 
 [[constraint]]
   name = "github.com/satori/go.uuid"

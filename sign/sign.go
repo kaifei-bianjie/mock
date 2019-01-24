@@ -3,7 +3,6 @@ package sign
 import (
 	"bytes"
 	"encoding/base64"
-	"encoding/json"
 	"fmt"
 	"github.com/irisnet/irishub/codec"
 	"github.com/irisnet/irishub/modules/auth"
@@ -17,33 +16,12 @@ import (
 	"log"
 )
 
-const (
-	// Bech32PrefixAccAddr defines the Bech32 prefix of an account's address
-	Bech32PrefixAccAddr = "faa"
-	// Bech32PrefixAccPub defines the Bech32 prefix of an account's public key
-	Bech32PrefixAccPub = "fap"
-	// Bech32PrefixValAddr defines the Bech32 prefix of a validator's operator address
-	Bech32PrefixValAddr = "fva"
-	// Bech32PrefixValPub defines the Bech32 prefix of a validator's operator public key
-	Bech32PrefixValPub = "fvp"
-	// Bech32PrefixConsAddr defines the Bech32 prefix of a consensus node address
-	Bech32PrefixConsAddr = "fca"
-	// Bech32PrefixConsPub defines the Bech32 prefix of a consensus node public key
-	Bech32PrefixConsPub = "fcp"
-)
-
 var (
 	Cdc *codec.Codec
 )
 
 //custom tx codec
 func init() {
-	config := sdk.GetConfig()
-	config.SetBech32PrefixForAccount(Bech32PrefixAccAddr, Bech32PrefixAccPub)
-	config.SetBech32PrefixForValidator(Bech32PrefixValAddr, Bech32PrefixValPub)
-	config.SetBech32PrefixForConsensusNode(Bech32PrefixConsAddr, Bech32PrefixConsPub)
-	config.Seal()
-
 	var cdc = codec.New()
 	bank.RegisterCodec(cdc)
 	auth.RegisterCodec(cdc)
@@ -93,6 +71,14 @@ func signTx(unsignedTx auth.StdTx, senderInfo types.AccountInfo) ([]byte, error)
 	return resBytes, nil
 }
 
+func buildBroadcastTxData(signedTx auth.StdTx) ([]byte, error) {
+	req := types.BroadcastTxReq{
+		Tx: signedTx,
+	}
+
+	return Cdc.MarshalJSON(req)
+}
+
 // generate signed tx
 func GenSignedTxData(senderInfo types.AccountInfo, receiver string, resChan chan types.GenSignedTxDataRes, chanNum int) {
 	var (
@@ -110,7 +96,6 @@ func GenSignedTxData(senderInfo types.AccountInfo, receiver string, resChan chan
 			log.Printf("%v: failed: %v\n", method, err)
 		}
 
-		//log.Printf("%v: signed tx data: %v\n", method, signedTxDataRes.Res)
 		resChan <- signedTxDataRes
 	}()
 
@@ -138,57 +123,12 @@ func GenSignedTxData(senderInfo types.AccountInfo, receiver string, resChan chan
 		return
 	}
 
-	// build signed data
-	msgBytes, err := Cdc.MarshalJSON(signedTx.Msgs[0])
+	// build broadcast tx data
+	broadcastTxBytes, err := buildBroadcastTxData(signedTx)
 	if err != nil {
 		log.Printf("%v: build post tx data failed: %v\n", method, err)
 		return
 	}
 
-	signature := signedTx.Signatures[0]
-
-	stdSign := types.StdSignature{
-		PubKey:        signature.PubKey.Bytes(),
-		Signature:     signature.Signature,
-		AccountNumber: signature.AccountNumber,
-		Sequence:      signature.Sequence,
-	}
-
-	postTx := types.PostTx{
-		Msgs: []string{string(msgBytes)},
-		Fee: auth.StdFee{
-			Amount: signedTx.Fee.Amount,
-			Gas:    int64(signedTx.Fee.Gas),
-		},
-		Signatures: []types.StdSignature{stdSign},
-		Memo:       signedTx.Memo,
-	}
-
-	postTxBytes, err := json.Marshal(postTx)
-
-	if err != nil {
-		log.Printf("%v: cdc marshal json fail: %v\n", method, err)
-		return
-	}
-	signedTxDataRes.Res = base64.StdEncoding.EncodeToString(postTxBytes)
-
-	//if err != nil {
-	//	log.Printf("broadcast tx failed: %v\n", err)
-	//	return nil, err
-	//}
-	//reqBuffer := bytes.NewBuffer(reqBytes)
-	//
-	//statusCode, resBytes, err := helper.HttpClientPostJsonData(constants.UriTxBroadcastTx, reqBuffer)
-	//
-	//if err != nil {
-	//	log.Printf("broadcast tx failed: %v\n", err)
-	//	return nil, err
-	//}
-	//
-	//if statusCode != constants.StatusCodeOk {
-	//	log.Printf("broadcast tx failed, unexcepted status code: %v\n", statusCode)
-	//	return nil, err
-	//}
-	//
-	//return resBytes, nil
+	signedTxDataRes.Res = base64.StdEncoding.EncodeToString(broadcastTxBytes)
 }

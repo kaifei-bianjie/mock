@@ -145,18 +145,21 @@
   version = "v1.0"
 
 [[projects]]
-  digest = "1:dfd744f98464ba3c0ad3fa8e8b72e789f761e7e579f10a04c7870b4c94c7f77a"
+  digest = "1:4d5133b790a3497b68504bf4d7ccf7ded051dd20977e5e25d0b33558cb003e8d"
   name = "github.com/irisnet/irishub"
   packages = [
     "codec",
     "modules/auth",
     "modules/bank",
+    "modules/params",
+    "modules/params/subspace",
+    "store",
     "types",
   ]
   pruneopts = "UT"
-  revision = "81d37aed014c89467077693711d77e227a32f6b5"
+  revision = "c92d168098a123427a7191e316055ccadc90377b"
   source = "https://github.com/irisnet/irishub.git"
-  version = "v0.8.0"
+  version = "v0.10.2-patch"
 
 [[projects]]
   branch = "master"
@@ -230,6 +233,14 @@
   pruneopts = "UT"
   revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
   version = "v0.8.0"
+
+[[projects]]
+  digest = "1:0028cb19b2e4c3112225cd871870f2d9cf49b9b4276531f03438a88e94be86fe"
+  name = "github.com/pmezard/go-difflib"
+  packages = ["difflib"]
+  pruneopts = "UT"
+  revision = "792786c7400a136282c1664665ae0a8db921c6c2"
+  version = "v1.0.0"
 
 [[projects]]
   digest = "1:93a746f1060a8acbcf69344862b2ceced80f854170e1caae089b2834c5fbf7f4"
@@ -352,6 +363,17 @@
   version = "v1.3.1"
 
 [[projects]]
+  digest = "1:7e8d267900c7fa7f35129a2a37596e38ed0f11ca746d6d9ba727980ee138f9f6"
+  name = "github.com/stretchr/testify"
+  packages = [
+    "assert",
+    "require",
+  ]
+  pruneopts = "UT"
+  revision = "12b6f73e6084dad08a7c6e575284b177ecafbc71"
+  version = "v1.2.1"
+
+[[projects]]
   branch = "master"
   digest = "1:685fdfea42d825ebd39ee0994354b46c374cf2c2b2d97a41a8dee1807c6a9b62"
   name = "github.com/syndtr/goleveldb"
@@ -388,7 +410,15 @@
   version = "v0.14.1"
 
 [[projects]]
-  digest = "1:9cd35151b432e4e6aa84d79654de43f2df30ffd037a2eb1c4d3447b5ed17540d"
+  digest = "1:e1cc8dd891e64aab63b0c09f2f12456cbe2cd9cbd9d96dfae3281245f05c2428"
+  name = "github.com/tendermint/iavl"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "de0740903a67b624d887f9055d4c60175dcfa758"
+  version = "v0.12.0"
+
+[[projects]]
+  digest = "1:f8ff490bea0dca945f3bbfcd54d4da6ebb3a0c69caca785801a414f53fbbb283"
   name = "github.com/tendermint/tendermint"
   packages = [
     "abci/client",
@@ -450,12 +480,12 @@
     "version",
   ]
   pruneopts = "UT"
-  revision = "9dd2007de1363fa77f11f71d30b59e747d2c3d99"
+  revision = "9505c83f9d41f020b8fc77d411025e8394264554"
   source = "https://github.com/irisnet/tendermint.git"
-  version = "v0.27.0-dev1-iris"
+  version = "v0.27.3-iris2"
 
 [[projects]]
-  digest = "1:1fdfa9436cc1c11afbdbfb56549e9201a92db0b0a0b7bef0797e7b68c9e8791f"
+  digest = "1:b6621a5e9003d7d809993d49217a841d27ef85b4bc0459115d3fd1f8c1518999"
   name = "golang.org/x/crypto"
   packages = [
     "chacha20poly1305",
@@ -472,8 +502,7 @@
     "salsa20/salsa",
   ]
   pruneopts = "UT"
-  revision = "3764759f34a542a3aef74d6b02e35be7ab893bba"
-  source = "github.com/tendermint/crypto"
+  revision = "505ab145d0a99da450461ae2c1a9f6cd10d1f447"
 
 [[projects]]
   digest = "1:7cc72287b751b14a2f5d48ff9e450a4e76038dfc0bac57dc23394c2193192b6b"

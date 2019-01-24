@@ -10,8 +10,8 @@ import (
 )
 
 func TestMain(m *testing.M) {
-	conf.NodeUrl = "http://localhost:1317"
-	conf.ChainId = "rainbow-dev"
+	conf.NodeUrl = "http://35.235.123.127:1317"
+	conf.ChainId = "fuxi-8000"
 
 	conf.BlockInterval = 5
 	conf.DefaultReceiverAddr = "faa1r5q5wqwctgfpt3p56qsctptrcq4st6lssyzx65"
@@ -42,9 +42,9 @@ func TestBroadcastSignedTx(t *testing.T) {
 				senderInfo: types.AccountInfo{
 					LocalAccountName: constants.MockFaucetName,
 					Password:         constants.MockFaucetPassword,
-					AccountNumber:    "23",
-					Sequence:         "11",
-					Address:          "faa1mhx2fgwds8uszeazl3au6r0xceppj9xrxavpud",
+					AccountNumber:    "356",
+					Sequence:         "1",
+					Address:          "faa1gcveln4rdkw4gs9gyd8hkapcjz9q55q0khw3st",
 				},
 				receiver: conf.DefaultReceiverAddr,
 				chanNUm:  1,
@@ -54,7 +54,7 @@ func TestBroadcastSignedTx(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			GenSignedTxData(tt.args.senderInfo, tt.args.receiver, tt.args.resChan, tt.args.chanNUm)
+			go GenSignedTxData(tt.args.senderInfo, tt.args.receiver, tt.args.resChan, tt.args.chanNUm)
 
 			res := <-tt.args.resChan
 			if res.ChanNum != 0 {

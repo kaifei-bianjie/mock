@@ -13,11 +13,10 @@ const (
 	KeyPassword   = "1234567890"
 
 	// http uri
-	UriKeyCreate     = "/keys"
-	UriAccountInfo   = "/auth/accounts/%v"           // format is /auth/accounts/{address}
-	UriTransfer      = "/bank/accounts/%s/transfers" // format is /bank/accounts/{address}/transfers
-	UriTxSign        = "/tx/sign"
-	UriTxBroadcastTx = "/txs/send"
+	UriKeyCreate   = "/keys"
+	UriAccountInfo = "/auth/accounts/%v"           // format is /auth/accounts/{address}
+	UriTransfer    = "/bank/accounts/%s/transfers" // format is /bank/accounts/{address}/transfers
+	UriTxSign      = "/tx/sign"
 
 	// http status code
 	StatusCodeOk       = 200
@@ -26,9 +25,9 @@ const (
 	//
 	MockFaucetName     = "mock-faucet"
 	MockFaucetPassword = "1234567890"
-	MockTransferAmount = "0.03iris"
-	MockDefaultGas     = "200000"
-	MockDefaultFee     = "0.01iris"
+	MockTransferAmount = "1iris"
+	MockDefaultGas     = "20000"
+	MockDefaultFee     = "0.5iris"
 	Denom              = "iris"
 
 	// http timeout

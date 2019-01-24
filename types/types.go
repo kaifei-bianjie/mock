@@ -60,6 +60,10 @@ type SignTxReq struct {
 	AppendSig     bool       `json:"append_sig"`
 }
 
+type BroadcastTxReq struct {
+	Tx auth.StdTx `json:"tx"`
+}
+
 type PostTxReq struct {
 	Tx auth.StdTx `json:"tx"`
 }
