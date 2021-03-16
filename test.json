@@ -1,0 +1,17 @@
+[
+    {
+        "platform":"iris-network",
+        "denom":"htltbcbusd",
+        "symnol":"busd",
+        "scale":8,
+        "coin_id":"binance-usd",
+        "name":"Binance USD",
+        "protocal":"htlt",
+        "traces":[
+            {
+                "platform":"binancecoin",
+                "denom":"busd"
+            }
+        ]
+    }
+]
